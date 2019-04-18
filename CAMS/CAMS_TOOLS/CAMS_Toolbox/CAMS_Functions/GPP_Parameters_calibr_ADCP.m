@@ -29,23 +29,23 @@ TpADCP=[];
 date2=[];
 
 for i=1:length(days)
-    ind_v=find(mondatefv==days(i)); % indices de "date2" (vidéo) correspondantes au jour i
-%     ind_v1=find(max(date1(ind_v))); % Indice de la date max de "date2" (vidéo) du jour i
-    date_maxvid=max(date1(ind_v)); % Date max de "date2" (vidéo) du jour i
+    ind_v=find(mondatefv==days(i)); % indices de "date2" (vidéo) correspondantes au day i
+%     ind_v1=find(max(date1(ind_v))); % Indice de la date max de "date2" (vidéo) du day i
+    date_maxvid=max(date1(ind_v)); % Date max de "date2" (vidéo) du day i
 %     date_maxvid=date1(ind_v(ind_v1)); 
-%     ind_v2=find(min(date1(ind_v))); % Indice de la date min de "date2" (vidéo) du jour i
+%     ind_v2=find(min(date1(ind_v))); % Indice de la date min de "date2" (vidéo) du day i
     date_minvid=min(date1(ind_v));
-%     date_minvid=date1(ind_v(ind_v2)); % Date min de "date2" (vidéo) du jour i
-    ind_d=find(mondatef==days(i)); % indices de "date" (ADCP) correspondantes au jour i
-    date_test=date(ind_d); % Dates ADCP du jour i
+%     date_minvid=date1(ind_v(ind_v2)); % Date min de "date2" (vidéo) du day i
+    ind_d=find(mondatef==days(i)); % indices de "date" (ADCP) correspondantes au day i
+    date_test=date(ind_d); % Dates ADCP du day i
     ind_d1=find(date_test>=date_minvid&date_test<=date_maxvid); % Indices
-    % ADCP du jour i correspondants à la période de fonctionnement de la
+    % ADCP du day i correspondants à la période de fonctionnement de la
     % caméra (la camera ne fonctionne pas la nuit)
     
-    date_int=date(ind_d(ind_d1)); % Dates ADCP du jour i pendant la période
+    date_int=date(ind_d(ind_d1)); % Dates ADCP du day i pendant la période
     % de fonctionnement de la caméra
     date2=[date2 date_int]; % Vecteur contenant toutes les Dates ADCP du
-    % jour i pendant la période de fonctionnement de la caméra
+    % day i pendant la période de fonctionnement de la caméra
     
     Hs2v=interp1(date1(ind_v),Hs(ind_v),date_int); % Hs vidéo interpolés
     % sur les temps ADCP durant le fonctionnement de la camera
@@ -147,7 +147,7 @@ set(gca,'XTick',date(1):1:date(end));
   %title({['Validation Hauteur Hs video par ADCP (Campagne Grand Popo Mars 2014'];[' RMSE ',num2str(r),'m']},'FontSize',12);%['Hsvidcor=(Hsvid.*',num2str(ss1),') + ',num2str(H3)]})
   title({['validation Hs-vidéo'];[' RMSE ',num2str(Hs_erms),'m']})%'FontSize',12)
 %   text(y,1.2,'HsADCP=(Hsvid.*0.17) + 0.48','fontsize',12);
- %xlabel('mois/jour/heure-2014','FontSize',12);
+ %xlabel('month/day/heure-2014','FontSize',12);
  ylabel('Hauteur (m)','FontSize',12);
  hold off;
 subplot(3,1,2);
@@ -170,7 +170,7 @@ title({['validation Tm-vidéo'];[' RMSE ',num2str(Tm_erms),'s']})
   plot(dati(ind_star:ind_end),angi_vid,'sk','LineWidth',2,'MarkerEdgeColor','k','MarkerFaceColor','k'); hold on; plot(dati(ind_star:ind_end),dir_interp,'sr','LineWidth',2,'LineWidth',2,'MarkerEdgeColor','r','MarkerFaceColor','r'); hold off
 set(gca,'XTick',date(1):1:date(end));
 set(gca,'XTickLabel',datestr(date(1):1:date(end),'dd mmm'),'fontsize',12);
-xlabel('mois/jour/Mars-2014','FontSize',12);
+xlabel('month/day/Mars-2014','FontSize',12);
 ylabel('Incidence des vagues (°)','FontSize',12) 
 title('validation Direction de la houle','FontSize',12)
 legend('video','ADCP')
