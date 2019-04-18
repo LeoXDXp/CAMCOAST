@@ -21,7 +21,7 @@ Dir_adcp = (169-Dir);
 Dir_v = Dir_v-90;
 clear Dir
 
-%Definition des listes et des vecteurs jours pour l'adcp et la vidéo:
+%Definition des listes et des vecteurs days pour l'adcp et la vidéo:
 liste_j_adcp=str2num(datestr(date_adcp,'yyyymmdd'));
 temps_j_adcp=unique(liste_j_adcp);
 
@@ -34,22 +34,22 @@ temps_j_v=unique(liste_j_v);
 
 for i=1:length(temps_j_adcp)
 %Definition du vecteur temps pour l'interpolation:    
-    ind_v=find(liste_j_v==temps_j_adcp(i)); % indices de "date2" (vidéo) correspondantes au jour i
-    date_maxvid=max(temps_Hs(ind_v)); % Date max de date_adcp vidéo du jour i
-    date_minvid=min(temps_Hs(ind_v));% Date min de "date2" (vidéo) du jour i
+    ind_v=find(liste_j_v==temps_j_adcp(i)); % indices de "date2" (vidéo) correspondantes au day i
+    date_maxvid=max(temps_Hs(ind_v)); % Date max de date_adcp vidéo du day i
+    date_minvid=min(temps_Hs(ind_v));% Date min de "date2" (vidéo) du day i
  
-    ind_d=find(liste_j_adcp==temps_j_adcp(i)); % indices de "date" (ADCP) correspondantes au jour i
-    date_test=date_adcp(ind_d); % Dates ADCP du jour i
+    ind_d=find(liste_j_adcp==temps_j_adcp(i)); % indices de "date" (ADCP) correspondantes au day i
+    date_test=date_adcp(ind_d); % Dates ADCP du day i
     
     ind_d1=find(date_test>=date_minvid&date_test<=date_maxvid); % Indices
-    % ADCP du jour i correspondants à la période de fonctionnement de la
+    % ADCP du day i correspondants à la période de fonctionnement de la
     % caméra (la camera ne fonctionne pas la nuit)
     
-    date_int_j=date_adcp(ind_d(ind_d1)); % Dates ADCP du jour i pendant la période
+    date_int_j=date_adcp(ind_d(ind_d1)); % Dates ADCP du day i pendant la période
     % de fonctionnement de la caméra
     
     date_int=[date_int date_int_j]; % Vecteur contenant toutes les Dates ADCP du
-    % jour i pendant la période de fonctionnement de la caméra
+    % day i pendant la période de fonctionnement de la caméra
     
 %Interpolation pour Hs:
     Hs_v_j=interp1(temps_Hs(ind_v),Hs(ind_v),date_int_j); % Hs vidéo interpolés
@@ -198,7 +198,7 @@ Dir_cal=C1_Dir.*Dir_v_int+C2_Dir;
 % hold off
 % set(gca,'XTick',date_adcp(1):1:date_adcp(end));
 % set(gca,'XTickLabel',datestr(date_adcp(1):1:date_adcp(end),'dd mmm'),'fontsize',12);
-% xlabel('mois/jour/Mars-2014','FontSize',12);
+% xlabel('month/day/Mars-2014','FontSize',12);
 % ylabel('Incidence des vagues (°)','FontSize',12) 
 % title('validation Direction de la houle','FontSize',12)
 % legend('video','ADCP')
