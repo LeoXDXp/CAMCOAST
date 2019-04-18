@@ -1,7 +1,7 @@
 % GPP_direction
 
 function CAMS_N2_Direction(dirN1,dirN2_d,ls_maj_d)
-% On liste toutes les images 'A' à traiter 
+% We list all the images 'A' to be treated
 files=[];
 datef=[];
 if size(ls_maj_d,1) > 0;
@@ -13,10 +13,10 @@ for i = 1 : size(ls_maj_d,1);
     end
 end
 
-%Datef: liste des dates en jour julien des images à traiter
+% Datef: list of dates in Julian day of images to be processed
 datef = datenum(files(end-15:end-4,:)','yyyymmddHHMM')';
 
-%Ymin,Ymax, Xmin et Xmax dépendent du Rectfile!
+%Ymin,Ymax, Xmin and Xmax depend on the Rectfile!
 Ymin = -150.0;
 Ymax =  -80.0;
 Xmin =  0.0;
@@ -25,8 +25,8 @@ method = 'linear';     % Method for griddata
 Normalisation = 0;     % Normalisation or not of the images
 GridRes = 0.5;         % res is defined in zone
 
-% Position du point 0 en lambert 3 et angle de la plage
-% Coordonnées video
+% Position of point 0 in lambert 3 and angle of the beach
+% Video coordinates
 ang=90+8;
 ang=ang*pi/180;
 x0=370341;%Easting
@@ -35,8 +35,8 @@ y0=694135;%Northing
 clear rr gg bb x1 y1
 load('RectGPP.mat');
 
-% Application de la zone et passage du tableau en vecteur (1 colonne) pour les
-% 3 composantes rouge, vert, bleu
+%Application of the area and passage of the table in vector (1 column) for
+% 3 red, green, blue components
 load('ZoneGPP.mat');
 
 x1=x1(1:1:end);
@@ -224,8 +224,7 @@ z=(Z+T(3,:))./R(3,:);
 %position.
 X_r=[z.*R(1,:)-T(1,:);z.*R(2,:)-T(2,:);Z];
 X_I=X_r;
-% Rotation et translation dans le nouveau repère (x0;y0) (pied de
-% l'échafaudage = référence)
+% Rotation and translation in the new reference (x0; y0) (foot of the scaffolding = reference)
 yr1=(X_I(1,:)-x0)*cos(ang)+(X_I(2,:)-y0)*sin(ang);
 xr1=(X_I(2,:)-y0)*cos(ang)-(X_I(1,:)-x0)*sin(ang);
 xx=xr1;
@@ -241,7 +240,7 @@ angi=[];
 dati=[];
 count=0;bluetot=0;
 files1=files;
-%Boucle sur les images afin de calculer les directions des vagues. 
+% Loop on the images to calculate the directions of the waves.
 for k=1:length(datef)
 try
         fA=strfind(files(:,k)','A_');
@@ -281,21 +280,18 @@ try
         bluetot=bluetot+blue;
         count=count+1;
         if count==4 
-            % Ici, on compte le nombre d'images à traiter pour
-            % avoir un angle. Dans ce cas (count==4), on veut un angle pour
-            % quatre (4) images (ce qui correspond à une heure).
+            % Here, we count the number of images to be treated to have an angle. In this case (count == 4), we want an angle for four (4) images (which corresponds to one hour). 
             Arect= griddata(xx(1:10:end),yy(1:10:end),bluetot(1:10:end),X,Y,method);
             figure(5);imagesc(Arect)
             count=0;bluetot=0;
             R=radon(detrend(Arect(:,:)));[rd R]=max(nanstd(R));
             disp(['Angle= ', num2str(90-R), '°'])
             angi=[angi R];
-            
-            %En cas de changement de jour de calcul, on enregistre un
-            %fichier journalier et on réinitialise dati et angi
+           
+	    % In the case of a calculation day change, a daily file is saved and dati and angi are reset
             if size(dati) > 0;
                 if str2num(datestr(datef(k),'yyyymmdd'))~=str2num(datestr(dati(end),'yyyymmdd')) 
-                    %Sauvegarde d'un fichier 
+                    %Saving a file
                     cd(dirN2_d);
                     save(['GPP_Direction_',datestr(dati(end),'yyyymmdd')],'dati','angi');
                     dati=[];
