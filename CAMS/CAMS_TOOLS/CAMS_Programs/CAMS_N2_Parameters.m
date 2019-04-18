@@ -1,5 +1,5 @@
 % ComputeGPPCharLongTerm_20150127.m
-%Fonction permettant de calculer les paramètres de vague
+%Function to calculate wave parametersFunction to calculate wave parameters
 function CAMS_N2_Parameters(dirN1,dirN2_p,ls_maj_p,swash)
 if length(ls_maj_p) > 0
 for j_maj = 1 : length(ls_maj_p)
@@ -29,7 +29,7 @@ sk1=[130 520];
 sk2=[360 1600];
 
 % CoordCam = [1355261.683 303848.647 8] ;
-%Def des coordonnées des stacks
+% Def coordinates of stacks
 sk1=double(sk1);
 sk2=double(sk2);
 lmax=max(abs(sk2(2)-sk1(2)),abs(sk2(1)-sk1(1)));
@@ -44,11 +44,11 @@ periode=1.5;%s
 
 for m=1:length(months)
     
-    %Célérité des vagues (m/s)
+    %Celerity of the waves (m/s)
     CT=[];
-    %profondeur (m)
+    %depth (m)
     depthT=[];
-    %Hauteur significative (m)
+    %significant height (m)
     hsT=[];
     %Hauteur moyenne (m)
     hmT=[];
@@ -116,7 +116,7 @@ for m=1:length(months)
 %%%        
         [C,depth,hs,hm,tm,tp,Er,rolL,nbwave,X1,Y1,dx,Breakstd,Breakmean1,Breakmean2]=GPP_get_wave_parameters(S,['RectGPP.mat'],dt,sk1,sk2,SystemVid(1:3),SystemVid(4));
 %%%        
-        veci=-350:1:-25; %vecteur de projection des données
+        veci=-350:1:-25; %vector of data projection
         clear idx
         for pk=1:length(veci)
             [frd gtf]=min(abs(veci(pk)-X1));
