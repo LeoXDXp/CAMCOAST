@@ -14,7 +14,7 @@ end
 Hs=Hsn(ordX);
 Tm=Tmn(ordX); 
 
-%Extraction de la direction et des dates associées:
+%Extraction of direction and associated dates:
 cd(dirN2_d);
 liste=dir('*Dir*.mat');
 Dir=[]; date_d=[];
@@ -27,7 +27,7 @@ end
     [date_d ordX]=sort(date_d);
     Dir = Dir(ordX); 
 
-%Extraction du trait de cote:
+%Extraction of the dimension line:
 cd(dirN2_s);
 liste=dir('GPP_ligne-eau_*.mat');
 Yn=[];date=[];
