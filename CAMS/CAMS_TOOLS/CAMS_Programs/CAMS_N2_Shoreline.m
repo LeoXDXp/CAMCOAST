@@ -1,6 +1,6 @@
 %PostProcess_GPP.m
-%%% Calcule le trait de côte.
-%%% Chemin conduisant aux images à traiter %%%%%%%%%%%%
+%%% Calculate the coastline.
+%%% Path leading to the images to be processed %%%%%%%%%%%%
 
 function CAMS_N2_Shoreline(dirN1,dirN2,ls_maj)
 
@@ -10,16 +10,16 @@ GPP_path = dirN2(1:36);
 %j_maj = numéro de la liste_maj
 if size(ls_maj,1) > 0
     
-for j_maj=1:size(ls_maj(:,1)) %Boucle sur les dates de la liste_maj
+for j_maj=1:size(ls_maj(:,1)) %Loop on the dates of the list_maj
 X=[];Y=[];dateavg=[];Error = [];    
     try
     
     disp(ls_maj(j_maj,:));
     
-    %Liste des images 'A' de la journée j_maj
+    %List of pictures 'A' of the day j_maj
     lsimg=ls([dirN1,ls_maj(j_maj,:),'\A*']);   
     
-    for i=1:1:size(lsimg,1) %Boucle sur les images 'A' de la journée j_maj
+    for i=1:1:size(lsimg,1) %Loop on the 'A' pictures of the day j_maj
         im_location = [dirN1,ls_maj(j_maj,:),'/',lsimg(i,:)];
         Img=imread(im_location);
         
@@ -54,8 +54,7 @@ X=[];Y=[];dateavg=[];Error = [];
 
 
             Co2=Xv;Co1=Yv;
-            % Rotation et translation dans le nouveau repère (x0;y0) (pied de
-            % l'échafaudage = référence)
+	    % Rotation and translation in the new reference (x0; y0) (foot of the scaffolding = reference)
             X1=(Co1-x0)*cos(ang)+(Co2-y0)*sin(ang);
             Y1=(Co2-y0)*cos(ang)-(Co1-x0)*sin(ang);
 
@@ -77,7 +76,7 @@ X=[];Y=[];dateavg=[];Error = [];
     end        
 
 
-%Sauvegarde du fichier journalier
+%Saving the daily file
 File_name=strcat('GPP_ligne-eau_',ls_maj(j_maj,:)); 
 cd(dirN2);
 save(File_name,'X','Y','dateavg','Error');
