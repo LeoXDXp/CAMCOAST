@@ -9,7 +9,7 @@ interval=15;% time between two images beginning (defaut is 15 min)
 stackn=3;%Stack number
 
 warning off
-% Pour compiler: mcc -mv Aquisition_20130104.m
+% To compile: mcc -mv Aquisition_20130104.m
 while 1==1
     nfiles=0;
     
@@ -44,7 +44,7 @@ while 1==1
             disp(['          Waiting for camera video files '])
             pause(5)
             
-            %Gestion des video corrompues
+            %Management of corrupted video
             if exist([root,'crash.mat'])~=0
                 load([root,'crash'],'datelast')
                 dates=datenum(file(size(file,1)-[17:-1:10 8:-1:7 5:-1:4],:)','yyyymmddHHMM');
@@ -81,7 +81,7 @@ while 1==1
             sk2=[360 1600];
             
         end
-        %Def des coordonnées des stacks
+        %Def coordinates of stacks
         lmax=max(abs(sk2(2)-sk1(2)),abs(sk2(1)-sk1(1)));
         pas1=(sk2(1)-sk1(1))/lmax;
         % if sk1(1)>sk2(1) pas1=-pas1; end
@@ -103,7 +103,7 @@ while 1==1
                     %      vp = VideoPlayer(file(:,ind(i))', 'Verbose', false, 'ShowTime', false);
                     disp(['          Generating Img ',datestr(datesmin(t)),'   File n°', num2str(i),'/',num2str(length(ind)),' (',datestr(dates(ind(i))),' )'])
                     
-                    datelast=dates(ind(end));%dernière vidéo ouverte
+                    datelast=dates(ind(end));%last video open
                     save([root,'crash'],'datelast');
                     
                     frameid=0;
@@ -133,7 +133,7 @@ while 1==1
                 
                 
                 
-                %Concatenation des couleurs
+                %Color concatenation
                 for sn=1:stackn;
                     eval(['Sr_',num2str(sn),'(find(Sr_',num2str(sn),' > 255))=255;Sr_',num2str(sn),'(find(Sr_',num2str(sn),' < 0))=0;Sg_',num2str(sn),'(find(Sg_',num2str(sn),' > 255))=255;Sg_',num2str(sn),'(find(Sg_',num2str(sn),' < 0))=0;Sb_',num2str(sn),'(find(Sb_',num2str(sn),' > 255))=255;Sb_',num2str(sn),'(find(Sb_',num2str(sn),' < 0))=0;']);
                     eval(['S_',num2str(sn),'=uint8(ones(cc,length(s1_',num2str(sn),'),3));S_',num2str(sn),'(:,:,1)=uint8(Sr_',num2str(sn),'(1:cc,:));S_',num2str(sn),'(:,:,2)=uint8(Sg_',num2str(sn),'(1:cc,:));S_',num2str(sn),'(:,:,3)=uint8(Sb_',num2str(sn),'(1:cc,:));']);
