@@ -51,7 +51,7 @@ date_s=MT(ind);
 %LES SERIES TEMPOELLES Hs, Tp, Dir et MY
 %Création des séries temporelles avec des NaN aux instants où il n'y a pas de données
 
-% Série temporelle avec des intervalles de 15 min = 1/96 jour Julien
+% Série temporelle avec des intervalles de 15 min = 1/96 day Julien
 temps = min([date_p(1),date_d(1),date_s(1)]):1/96:max([date_p(end),date_d(end),date_s(end)]);
 
 % Extraction des valeurs de "Hs_gpp" et "Tp_gpp" (vidéo) correspondantes à "temps". 
@@ -111,11 +111,11 @@ Tm =(Tm.*C1_Tm) + C2_Tm;
 Dir = (Dir.*C1_Dir) + C2_Dir;
  
 %MOYENNES JOURNALIERES ET ECARTS TYPES DES PARAMETRES DE VAGUES
-%Moyenne journalière et écarts types de Hs et Tm:
+%Moyenne daynalière et écarts types de Hs et Tm:
 
-% Vecteurs temps, liste des jours.
-liste_j = datenum((datestr(temps,'yyyymmdd')),'yyyymmdd');%liste des jours du vecteur temps, un jour  apparait plusieurs fois. 
-temps_j = unique(liste_j); %liste des jours du vecteur temps, chaque jour apparait une fois
+% Vecteurs temps, liste des days.
+liste_j = datenum((datestr(temps,'yyyymmdd')),'yyyymmdd');%liste des days du vecteur temps, un day  apparait plusieurs fois. 
+temps_j = unique(liste_j); %liste des days du vecteur temps, chaque day apparait une fois
 
 Hs_j = []; 
 Std_Hs_j = [];
@@ -144,9 +144,9 @@ end
 
 %MOYENNES MENSUELLES ET ECARTS TYPES DES PARAMETRES DE VAGUES    
 
-% Vecteurs temps, liste des jours.
-liste_m = datenum((datestr(temps,'yyyymm')),'yyyymm');%liste des mois du vecteur temps, un mois  apparait plusieurs fois. 
-temps_m = unique(liste_m); %liste des mois du vecteur temps, chaque mois apparait une fois
+% Vecteurs temps, liste des days.
+liste_m = datenum((datestr(temps,'yyyymm')),'yyyymm');%liste des months du vecteur temps, un months  apparait plusieurs fois. 
+temps_m = unique(liste_m); %liste des months du vecteur temps, chaque months apparait une fois
 
 Hs_m = []; 
 Std_Hs_m = [];
@@ -178,7 +178,7 @@ end
 fig_j = figure;;
     subplot(3,1,1);
      plot(temps_j,Hs_j,'LineWidth',2); 
-     title ('Evolution journalière de la hauteur significative');
+     title ('Evolution daynalière de la hauteur significative');
      %xlim([min(date2) max(date2)]);
      xlabel('time (YY/mm)');
      ylabel ('<Hs_j>_Y (m)'); set(gca,'XTick',temps_j(1):60:temps_j(end));
@@ -190,7 +190,7 @@ fig_j = figure;;
      plot(temps_j,Tm_j,'LineWidth',2); 
 
      %xlim([min(date2) max(date2)]);
-     title ('evolution journalière de la periode moyenne');
+     title ('evolution daynalière de la periode moyenne');
      xlabel('time (YY/mm)');
      ylabel ('<Tmjr>_Y (m)');
      set(gca,'XTick',temps_j(1):60:temps_j(end));
@@ -200,7 +200,7 @@ fig_j = figure;;
      subplot(3,1,3)
 
     plot(temps_j,Dir_j,'LineWidth',2);
-    legend('Direction journalière','Location','NorthEast');
+    legend('Direction daynalière','Location','NorthEast');
     ylabel('Direction(°)')
     set(gca,'XTick',temps_j(1:31:end))
     set(gca,'XTickLabel',datestr(temps_j(1:31:end),'yy/mm'));
@@ -232,7 +232,7 @@ fig_m = figure;
         plot(temps_m,Tm_m-Std_Tm_m,'r','LineWidth',2);
         plot(temps_m,Tm_m+Std_Tm_m,'r','LineWidth',2);
         %xlim([min(date2) max(date2)]);
-        title ('Evolution journalière de la periode moyenne');
+        title ('Evolution daynalière de la periode moyenne');
         xlabel('time (YY/mm)');
         ylabel ('<Tmjr>_Y (m)');
         set(gca,'XTick',temps_m(1):60:temps_m(end));
@@ -241,7 +241,7 @@ fig_m = figure;
 
     subplot(3,1,3)
         plot(temps_m,Dir_m,'xb','LineWidth',2);
-        legend('Direction journalière','Location','NorthEast');
+        legend('Direction daynalière','Location','NorthEast');
         ylabel('Direction(°)')
         set(gca,'XTick',temps_j(1:31:end))
         set(gca,'XTickLabel',datestr(temps_j(1:31:end),'yy/mm'));
@@ -259,7 +259,7 @@ fig_m = figure;
 fig_s = figure;
     subplot(2,1,1);
         plot(temps_j,MY_j-MY_j(1),'LineWidth',2);
-        title ('Evolution journalière de la ligne d''eau');
+        title ('Evolution daynalière de la ligne d''eau');
         %xlim([min(date2) max(date2)]);
         xlabel('time (YY/mm)');
         ylabel ('<Position trait de côte (m)'); set(gca,'XTick',temps_j(1):60:temps_j(end));
@@ -280,12 +280,12 @@ fig_s = figure;
         
 cd(dirN3);
 
-saveas(fig_j,'GPP_N3_Evolution_parametres_jours.jpg');
-saveas(fig_m,'GPP_N3_Evolution_parametres_mois.jpg');
-saveas(fig_s,'GPP_N3_Evolution_Shoreline_jours.jpg');
+saveas(fig_j,'GPP_N3_Evolution_parametres_days.jpg');
+saveas(fig_m,'GPP_N3_Evolution_parametres_months.jpg');
+saveas(fig_s,'GPP_N3_Evolution_Shoreline_days.jpg');
 
-filename_jour = ['GPP_N3_JOURS_' datestr(temps(1),'yyyymmdd') '-' datestr(temps(end),'yyyymmdd') '.txt'];
-fid1 = fopen(filename_jour,'wt');
+filename_day = ['GPP_N3_Days_' datestr(temps(1),'yyyymmdd') '-' datestr(temps(end),'yyyymmdd') '.txt'];
+fid1 = fopen(filename_day,'wt');
 fprintf(fid1,'%s\t',' Date  ');
 fprintf(fid1,'%s\t',' Hs(m)  ');
 fprintf(fid1,'%s\t',' Tp(s)  ');
@@ -300,8 +300,8 @@ for i=1:length(Hs_j)
     fprintf(fid1,'%8.4f\n',MY_j(i));
 end
 
-filename_mois = ['GPP_N3_MOIS_' datestr(temps(1),'yyyymmdd') '-' datestr(temps(end),'yyyymmdd') '.txt'];
-fid2 = fopen(filename_mois,'wt');
+filename_months = ['GPP_N3_Months_' datestr(temps(1),'yyyymmdd') '-' datestr(temps(end),'yyyymmdd') '.txt'];
+fid2 = fopen(filename_months,'wt');
 fprintf(fid2,'%s\t',' Date  ');
 fprintf(fid2,'%s\t',' Hs(m)  ');
 fprintf(fid2,'%s\t',' Std(Hs)(m)  ');
