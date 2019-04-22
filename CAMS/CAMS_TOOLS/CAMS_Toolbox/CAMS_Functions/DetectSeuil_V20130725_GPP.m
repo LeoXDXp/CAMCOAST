@@ -1,13 +1,12 @@
 %DetectSeuil_V20130725_GPP.m
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  function [x,y]=DetectSeuil_V20130725_GPP(Img,cmin,cmax,nbmin,path)
-% Description : Fonction qui calcule la position de la ligne d'eau sur une
-% image video non-rectifiée
+% Function that calculates the position of the water line on a non-rectified video image
 %tic
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Inputs :
-% - Img : image sur laquelle va être calculée la ligne d'eau
+% - Img : image on which will be calculated the water line
 %ex:
 %Img=imread('E:\TV1\Cam-Era\Camera2\20080308\13/CamB_2008_03_08_13_02_36_93.jpg');
 % 
@@ -17,22 +16,21 @@
 % - Site : nom du site : Truc Vert(TV) ou Biscarrosse (BI)
 %ex : Site='TV';
 %ex: Site='Sete';
-%  - cmin critère (entre pic max et min) pour début recherche de seuil
+%  - cmin criterion (between peak max and min) for start threshold search
 % ex : 1/5
-%  - cmax critère (entre pic max et min) pour début recherche de seuil
+%  - cmax criterion (between peak max and min) for start threshold search
 % ex : 1/10
 %
-%  - nbmin nombre de min maximal
+%  - nbmin maximum number of minutes
 % ex : 5
-%  - path chemin d'accès aux fichier zone
+%  - path path to the zone file
 % ex : 5
 
 % Outputs :
 %
-% (x2,y2): coordonnées lissées des points de la ligne d'eau calculée (Ne
-% pas utiliser - variables vides)
+% (x2,y2): smoothed coordinates of calculated waterline points (Do not use - empty variables)
 % 
-% (x,y) : coordonnées des points de la ligne d'eau calculée (a utiliser)
+% (x,y) : coordinates of the points in the calculated water line (to be used)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -45,8 +43,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%   preTraitement de l'image
-%Correction des effets optiques de variation d'intensité sur les bords de l'image
+% Preprocessing the image
+% Correction of optical effects of variation of intensity on the edges of the image
 %      a3=IntensityCorrection(Img,Site,Cam);
      a3=Img;
 % end
