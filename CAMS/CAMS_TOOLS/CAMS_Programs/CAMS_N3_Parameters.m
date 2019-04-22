@@ -39,31 +39,30 @@ for i=1:length(liste)
     MY=Yn(:,ordX);
 end 
 
-%Elimination des valeurs abérantes 
+%Elimination of outliers
 indHs = find(Hs > (2.*nanstd(Hs)+nanmean(Hs)));
 Hs(indHs) = NaN;
 
-%Pour le trait de cote 
-ind=find(nanmean(MY)>=50&nanmean(MY)<=80); % Indices de lignes d'eau exploitables
-MYe=nanmean(MY(:,ind)); % vecteur instantané (toutes les 15 min) de ligne d'eau exploitable moyenné long-shore
+% For the dimension line
+ind=find(nanmean(MY)>=50&nanmean(MY)<=80); % Indices of exploitable water lines
+MYe=nanmean(MY(:,ind)); % instantaneous vector (every 15 min) of exploitable waterline averaged long-shore
 date_s=MT(ind);
 
-%LES SERIES TEMPOELLES Hs, Tp, Dir et MY
-%Création des séries temporelles avec des NaN aux instants où il n'y a pas de données
+% TIME SERIES Hs, Tp, Dir and MY
+% Creation of time series with NaN at times when there is no data
 
 % Série temporelle avec des intervalles de 15 min = 1/96 day Julien
+% Time series with 15 min intervals = 1/96 Julien day	
 temps = min([date_p(1),date_d(1),date_s(1)]):1/96:max([date_p(end),date_d(end),date_s(end)]);
 
-% Extraction des valeurs de "Hs_gpp" et "Tp_gpp" (vidéo) correspondantes à "temps". 
+% Extraction of the values of "Hs_gpp" and "Tp_gpp" (video) corresponding to "time".
 Hs_temps = nan(1,length(temps));
 Tm_temps = nan(1,length(temps));
 Dir_temps = nan(1,length(temps));
 MYe_temps = nan(1,length(temps));
-%On veut obtenir une série temporelle avec des "NaN" aux instants du
-%vecteur temps où on ne dispose pas de données.
+% We want to obtain a time series with "NaN" at the times of the time vector where we do not have data.
 for i=1:size(temps,2)  
-%     On cherche les dates pour lesquelles on a une valeur de Hs. Le
-%     +0.00007 (= 06 min) permet d'avoir une marge d'erreur sur les dates.         
+% We look for the dates for which we have a value of Hs. The +0.00007 (= 06 min) allows to have a margin of error on the dates.
     ind_t = find(date_p >= temps(i)-0.00007 & date_p <= temps(i)+0.00007);
     ind_d = find(date_d >= temps(i)-0.00007 & date_d <= temps(i)+0.00007);
     ind_s = find(date_s>= temps(i)-0.00007 & date_s <= temps(i)+0.00007);
@@ -110,12 +109,12 @@ Tm =(Tm.*C1_Tm) + C2_Tm;
 %Dir Calibrée
 Dir = (Dir.*C1_Dir) + C2_Dir;
  
-%MOYENNES JOURNALIERES ET ECARTS TYPES DES PARAMETRES DE VAGUES
-%Moyenne daynalière et écarts types de Hs et Tm:
+% DAILY AVERAGES AND TYPICAL WAVE PARAMETER EXCLUSIONS
+% Daily average and standard deviations of Hs and Tm:
 
-% Vecteurs temps, liste des days.
-liste_j = datenum((datestr(temps,'yyyymmdd')),'yyyymmdd');%liste des days du vecteur temps, un day  apparait plusieurs fois. 
-temps_j = unique(liste_j); %liste des days du vecteur temps, chaque day apparait une fois
+% Vectors time, list of days.
+liste_j = datenum((datestr(temps,'yyyymmdd')),'yyyymmdd');% list of days of the time vector, a day appears several times.
+temps_j = unique(liste_j); % list of days of the time vector, each day appears once
 
 Hs_j = []; 
 Std_Hs_j = [];
@@ -142,11 +141,11 @@ for j = 1 : length(temps_j)
                        
 end
 
-%MOYENNES MENSUELLES ET ECARTS TYPES DES PARAMETRES DE VAGUES    
+% MONTHLY AVERAGES AND TYPICAL DEPTHS OF WAVE PARAMETERS
 
-% Vecteurs temps, liste des days.
-liste_m = datenum((datestr(temps,'yyyymm')),'yyyymm');%liste des months du vecteur temps, un months  apparait plusieurs fois. 
-temps_m = unique(liste_m); %liste des months du vecteur temps, chaque months apparait une fois
+% Vectors time, list of days
+liste_m = datenum((datestr(temps,'yyyymm')),'yyyymm');% list of months of the time vector, a month appears several times.
+temps_m = unique(liste_m); %list of months of the time vector, each month appears once
 
 Hs_m = []; 
 Std_Hs_m = [];
@@ -174,43 +173,43 @@ for j = 1 : length(temps_m)
 end
 
 
-%FIGURES MOYENNES JOURNALIERES 
+% AVERAGE FIGURES DAILY
 fig_j = figure;;
     subplot(3,1,1);
      plot(temps_j,Hs_j,'LineWidth',2); 
-     title ('Evolution daynalière de la hauteur significative');
+     title ('Daily evolution of significant height');
      %xlim([min(date2) max(date2)]);
      xlabel('time (YY/mm)');
      ylabel ('<Hs_j>_Y (m)'); set(gca,'XTick',temps_j(1):60:temps_j(end));
      set(gca,'XTick',temps_j(1):60:temps_j(end));
      set(gca,'XTickLabel',datestr(temps_j(1):60:temps_j(end),'YY/mm'));
-     legend('hauteur significative'); 
+     legend('significant height'); 
 
     subplot(3,1,2);
      plot(temps_j,Tm_j,'LineWidth',2); 
 
      %xlim([min(date2) max(date2)]);
-     title ('evolution daynalière de la periode moyenne');
+     title ('day-to-day evolution of the average period');
      xlabel('time (YY/mm)');
      ylabel ('<Tmjr>_Y (m)');
      set(gca,'XTick',temps_j(1):60:temps_j(end));
      set(gca,'XTickLabel',datestr(temps_j(1):60:temps_j(end),'YY/mm'));
-     legend('periode moyenne'); 
+     legend('average period'); 
 
      subplot(3,1,3)
 
     plot(temps_j,Dir_j,'LineWidth',2);
-    legend('Direction daynalière','Location','NorthEast');
+    legend('Daily Direction','Location','NorthEast');
     ylabel('Direction(°)')
     set(gca,'XTick',temps_j(1:31:end))
     set(gca,'XTickLabel',datestr(temps_j(1:31:end),'yy/mm'));
     xlabel('time (YY/mm)')
     set(gcf,'Color','w')
-    title('Evolution de la direction des vagues de GPP par vidéo')
+    title('Evolution of the direction of GPP waves by video')
     %patch([temps_j(1) temps_j(end)], [0 0], [1 0 0],'LineWidth',2);
     a=Dir_j(1);
     b=Dir_j(end);
-    text(temps_j(end-100),-3,'Incidence cross-shore');
+    text(temps_j(end-100),-3,'Cross-shore impact');
     ylim([min(Dir_j)-5 max(Dir_j)+5])
 %xlim([(temps_j(1)-1) (temps_j(end)+1)])
 
@@ -218,13 +217,13 @@ fig_j = figure;;
 fig_m = figure;
     subplot(3,1,1);
         plot(temps_m,Hs_m,'LineWidth',2); hold on; plot(temps_m,Hs_m-Std_Hs_m,'r','LineWidth',2); plot(temps_m,Hs_m+Std_Hs_m,'r','LineWidth',2)
-        title ('Evolution mensuelle de la hauteur significative');
+        title ('Monthly evolution of significant height');
         %xlim([min(date2) max(date2)]);
         xlabel('time (YY/mm)');
         ylabel ('<Hs_j>_Y (m)'); set(gca,'XTick',temps_m(1):60:temps_m(end));
         set(gca,'XTick',temps_m(1):60:temps_m(end));
         set(gca,'XTickLabel',datestr(temps_m(1):60:temps_m(end),'YY/mm'));
-        legend('hauteur significative','ecart-type'); hold off
+        legend('Significant Height','ecart-type'); hold off
 
         subplot(3,1,2);
         plot(temps_m,Tm_m,'LineWidth',2); 
@@ -232,26 +231,26 @@ fig_m = figure;
         plot(temps_m,Tm_m-Std_Tm_m,'r','LineWidth',2);
         plot(temps_m,Tm_m+Std_Tm_m,'r','LineWidth',2);
         %xlim([min(date2) max(date2)]);
-        title ('Evolution daynalière de la periode moyenne');
+        title ('Daily evolution of the average period');
         xlabel('time (YY/mm)');
         ylabel ('<Tmjr>_Y (m)');
         set(gca,'XTick',temps_m(1):60:temps_m(end));
         set(gca,'XTickLabel',datestr(temps_m(1):60:temps_m(end),'YY/mm'));
-        legend('periode moyenne','ecart-type'); hold off
+        legend('Average Period','ecart-type'); hold off
 
     subplot(3,1,3)
         plot(temps_m,Dir_m,'xb','LineWidth',2);
-        legend('Direction daynalière','Location','NorthEast');
+        legend('Daily Direction','Location','NorthEast');
         ylabel('Direction(°)')
         set(gca,'XTick',temps_j(1:31:end))
         set(gca,'XTickLabel',datestr(temps_j(1:31:end),'yy/mm'));
         xlabel('time (YY/mm)')
         set(gcf,'Color','w')
-        title('Evolution de la direction des vagues de GPP par vidéo')
+        title('Evolution of the direction of GPP waves by video')
         %patch([temps_j(1) temps_j(end)], [0 0], [1 0 0],'LineWidth',2);
         a=Dir_j(1);
         b=Dir_j(end);
-        text(temps_j(end-100),-3,'Incidence cross-shore');
+        text(temps_j(end-100),-3,'Cross-shore impact');
         ylim([min(Dir_j)-5 max(Dir_j)+5])
         %xlim([(temps_j(1)-1) (temps_j(end)+1)])
         
@@ -259,23 +258,23 @@ fig_m = figure;
 fig_s = figure;
     subplot(2,1,1);
         plot(temps_j,MY_j-MY_j(1),'LineWidth',2);
-        title ('Evolution daynalière de la ligne d''eau');
+        title ('Daily evolution of the water line');
         %xlim([min(date2) max(date2)]);
         xlabel('time (YY/mm)');
         ylabel ('<Position trait de côte (m)'); set(gca,'XTick',temps_j(1):60:temps_j(end));
         set(gca,'XTick',temps_j(1):60:temps_j(end));
         set(gca,'XTickLabel',datestr(temps_j(1):60:temps_j(end),'YY/mm'));
-        legend('Ligne d''eau');
+        legend('Water Line);
 
     subplot(2,1,2);
         plot(temps_m,MY_m,'LineWidth',2); hold on; plot(temps_m,MY_m-Std_MY_m,'--','color','red'); plot(temps_m,MY_m+Std_MY_m,'--','color','red')
-        title ('Evolution mensuelle de la ligne d''eau');
+        title ('Monthly evolution of the water line');
         %xlim([min(date2) max(date2)]);
         xlabel('time (YY/mm)');
         ylabel ('Position trait de côte (m)'); set(gca,'XTick',temps_j(1):60:temps_j(end));
         set(gca,'XTick',temps_j(1):60:temps_j(end));
         set(gca,'XTickLabel',datestr(temps_j(1):60:temps_j(end),'YY/mm'));
-        legend('Ligne d''eau','ecart-type'); hold off
+        legend('Water Line,'ecart-type'); hold off
 
         
 cd(dirN3);
