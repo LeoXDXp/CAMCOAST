@@ -11,13 +11,11 @@ method = 'linear'     % Method for griddata
 
       A=imread(ImageGPP); 
 
-    % Recupération de la resolution : resx et resy et des indices des points de la zone
-    % : indo et des points de la zone : x1, y1
+    % Recovery of the resolution: resx and resy and indices of the points of the zone: indo and points of the zone: x1, y1
     load(Rectfile);
     load(Zonefile);
 
-    % Application de la zone et passage du tableau en vecteur (1 colonne) pour les 
-    % 3 composantes rouge, vert, bleu 
+    % Application of the area and passage of the table in vector (1 column) for the 3 components red, green, blue
 
     nx=size(A,1);
     ny=size(A,2);
@@ -44,7 +42,7 @@ X_I(2,:)=Vcoord2;
 
     load(Rectfile);
   
-  % Résolution finale de la figure et nouvelle grille
+  % Final resolution of the figure and new grid
 %       GridRes=1;
       xr=min(X_kk(1,:)):GridRes:max(X_kk(1,:));
       yr=min(X_kk(2,:))-10:GridRes:max(X_kk(2,:));
@@ -61,11 +59,11 @@ X_I(2,:)=Vcoord2;
   Arect(:,:,2) = griddata(xx,yy,green,X,Y,method);
   Arect(:,:,3) = griddata(xx,yy,blue,X,Y,method);
 
-  % Contrôle des limites de bandes
+  % Control of band boundaries
   Arect(find(Arect>255))=255;
   Arect(find(Arect<0))=0;
 
-  % Passage en uint8
+  % Passage in uint8
   Arect = uint8(Arect);
 
   fig=figure(1);
